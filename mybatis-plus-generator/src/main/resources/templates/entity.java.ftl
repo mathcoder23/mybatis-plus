@@ -11,12 +11,15 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+    <#if entityBuilderModel>
+import lombok.Builder;
+    </#if>
 </#if>
 
 /**
  * <p>
- * ${table.comment!}
- * </p>
+    * ${table.comment!}
+    * </p>
  *
  * @author ${author}
  * @since ${date}
@@ -29,6 +32,9 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
     </#if>
 @Accessors(chain = true)
+    <#if entityBuilderModel>
+@Builder
+    </#if>
 </#if>
 <#if table.convert>
 @TableName("${table.name}")
@@ -63,7 +69,7 @@ public class ${entity} implements Serializable {
         </#if>
     </#if>
     <#if field.keyFlag>
-        <#-- 主键 -->
+    <#-- 主键 -->
         <#if field.keyIdentityFlag>
     @TableId(value = "${field.name}", type = IdType.AUTO)
         <#elseif idType??>
@@ -71,7 +77,7 @@ public class ${entity} implements Serializable {
         <#elseif field.convert>
     @TableId("${field.name}")
         </#if>
-        <#-- 普通字段 -->
+    <#-- 普通字段 -->
     <#elseif field.fill??>
     <#-- -----   存在字段填充设置   ----->
         <#if field.convert>
@@ -82,11 +88,11 @@ public class ${entity} implements Serializable {
     <#elseif field.convert>
     @TableField("${field.name}")
     </#if>
-    <#-- 乐观锁注解 -->
+<#-- 乐观锁注解 -->
     <#if (versionFieldName!"") == field.name>
     @Version
     </#if>
-    <#-- 逻辑删除注解 -->
+<#-- 逻辑删除注解 -->
     <#if (logicDeleteFieldName!"") == field.name>
     @TableLogic
     </#if>
@@ -105,11 +111,11 @@ public class ${entity} implements Serializable {
         return ${field.propertyName};
     }
 
-    <#if entityBuilderModel>
+        <#if entityBuilderModel>
     public ${entity} set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
-    <#else>
+        <#else>
     public void set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
-    </#if>
+        </#if>
         this.${field.propertyName} = ${field.propertyName};
         <#if entityBuilderModel>
         return this;

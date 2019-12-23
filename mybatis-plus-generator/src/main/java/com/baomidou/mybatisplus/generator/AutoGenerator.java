@@ -23,6 +23,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
+import com.baomidou.mybatisplus.generator.config.converts.TableFieldTypeConvertImpl;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine;
 import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
@@ -82,6 +83,9 @@ public class AutoGenerator {
      * 模板引擎
      */
     private AbstractTemplateEngine templateEngine;
+
+    private TableFieldTypeConvert tableFieldTypeConvert = new TableFieldTypeConvertImpl();
+
 
     /**
      * 生成代码
@@ -172,6 +176,12 @@ public class AutoGenerator {
                         field.setPropertyName(StringUtils.removePrefixAfterPrefixToLower(field.getPropertyName(), 2));
                     });
             }
+            tableFieldTypeConvert.processTableFieldTypeConvert(strategy,tableInfo);
+            tableInfo.getFields().forEach(tableField -> {
+                if(null != tableField.getEnumField() && null != tableField.getColumnType().getPkg()){
+                    tableInfo.setImportPackages(tableField.getColumnType().getPkg());
+                }
+            });
         }
         return config.setTableInfoList(tableList);
     }

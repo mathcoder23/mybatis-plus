@@ -23,6 +23,7 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,6 +48,7 @@ public class TableField {
     private IColumnType columnType;
     private String comment;
     private String fill;
+    private List<EnumItemInfo> enumField;
     /**
      * 自定义查询字段列表
      */
@@ -110,4 +112,5 @@ public class TableField {
         }
         return firstChar.toUpperCase() + setGetName.substring(1);
     }
+
 }

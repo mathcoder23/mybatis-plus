@@ -183,6 +183,10 @@ public class StrategyConfig {
      * @since 3.3.0
      */
     private LikeTable notLikeTable;
+    /**
+     * 枚举父类
+     */
+    private String superEnumClass;
 
     /**
      * 大写命名、字段符合大写字母数字下划线命名

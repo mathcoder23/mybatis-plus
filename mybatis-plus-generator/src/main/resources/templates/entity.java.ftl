@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import lombok.Builder;
 </#if>
 
 /**
@@ -29,6 +30,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
     </#if>
 @Accessors(chain = true)
+@Builder
 </#if>
 <#if table.convert>
 @TableName("${table.name}")
@@ -47,6 +49,8 @@ public class ${entity} implements Serializable {
 <#if entitySerialVersionUID>
     private static final long serialVersionUID = 1L;
 </#if>
+
+
 <#-- ----------  BEGIN 字段循环遍历  ---------->
 <#list table.fields as field>
     <#if field.keyFlag>
@@ -93,7 +97,37 @@ public class ${entity} implements Serializable {
     private ${field.propertyType} ${field.propertyName};
 </#list>
 <#------------  END 字段循环遍历  ---------->
+<#-- ----------  BEGIN 枚举类型循环遍历  ---------->
+<#list table.fields as field>
+    <#if field.enumField??>
 
+    public enum ${field.propertyType} implements IntEnum<${field.propertyType}>{
+    <#list field.enumField as enum>
+        ${enum.name}(${enum.value},"${enum.remarks}")<#if field.enumField?size==(enum_index+1)>;<#else>,</#if>
+    </#list>
+
+        private final int value;
+        private final String name;
+
+        ${field.propertyType}(int value, String name) {
+            this.value = value;
+            this.name = name;
+        }
+        public int value() {
+            return this.value;
+        }
+        public String getName() {
+            return this.name;
+        }
+        @Override
+        public int getIntValue() {
+            return value;
+        }
+    }
+    </#if>
+</#list>
+
+<#-- ----------  END 枚举类型循环遍历  ---------->
 <#if !entityLombokModel>
     <#list table.fields as field>
         <#if field.propertyType == "boolean">

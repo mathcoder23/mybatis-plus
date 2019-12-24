@@ -101,7 +101,7 @@ public class ${entity} implements Serializable {
 <#list table.fields as field>
     <#if field.enumField??>
 
-    public enum ${field.propertyType} implements IntEnum<${field.propertyType}>{
+    public enum ${field.propertyType} implements BaseEnum<${field.propertyType},Integer>{
     <#list field.enumField as enum>
         ${enum.name}(${enum.value},"${enum.remarks}")<#if field.enumField?size==(enum_index+1)>;<#else>,</#if>
     </#list>
@@ -113,14 +113,12 @@ public class ${entity} implements Serializable {
             this.value = value;
             this.name = name;
         }
-        public int value() {
-            return this.value;
-        }
+        @Override
         public String getName() {
             return this.name;
         }
         @Override
-        public int getIntValue() {
+        public Integer getValue() {
             return value;
         }
     }

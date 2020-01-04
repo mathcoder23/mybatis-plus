@@ -56,7 +56,7 @@ public class MySqlTypeConvert implements ITypeConvert {
         } else if (t.contains("double")) {
             return DbColumnType.DOUBLE;
         } else if (t.contains("json") || t.contains("enum")) {
-            return DbColumnType.STRING;
+            return DbColumnType.JSON;
         } else if (t.contains("date") || t.contains("time") || t.contains("year")) {
             switch (globalConfig.getDateType()) {
                 case ONLY_DATE:

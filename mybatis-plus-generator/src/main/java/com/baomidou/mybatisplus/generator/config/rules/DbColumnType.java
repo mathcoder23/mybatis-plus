@@ -63,7 +63,8 @@ public enum DbColumnType implements IColumnType {
     OBJECT("Object", null),
     DATE("Date", "java.util.Date"),
     BIG_INTEGER("BigInteger", "java.math.BigInteger"),
-    BIG_DECIMAL("BigDecimal", "java.math.BigDecimal");
+    BIG_DECIMAL("BigDecimal", "java.math.BigDecimal"),
+    JSON("JSONObject", "com.alibaba.fastjson.JSONObject");
 
     /**
      * 类型

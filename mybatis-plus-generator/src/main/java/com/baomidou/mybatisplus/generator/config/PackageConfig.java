@@ -54,6 +54,7 @@ public class PackageConfig {
      * Service Impl包名
      */
     private String serviceImpl = "service.impl";
+    private boolean serviceSingleImpl = false;
     /**
      * Mapper包名
      */

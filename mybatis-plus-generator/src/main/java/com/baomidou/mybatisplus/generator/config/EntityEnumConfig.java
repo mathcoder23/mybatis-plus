@@ -31,7 +31,7 @@ public class EntityEnumConfig {
         return Pattern.matches(REMARKS_PATTERN,comment);
     }
     public static void  generatorEnumType(StrategyConfig strategyConfig,TableField tableField){
-        tableField.setType(upperCaseFirst(tableField.getName()));
+        tableField.setType(upperCaseFirst(lineToHump(tableField.getName())));
         String type = tableField.getType();
         tableField.setColumnType(new ComColumnType(type,strategyConfig.getSuperEnumClass()));
         List<EnumItemInfo> list = parseRemarks(tableField.getComment());
@@ -65,6 +65,18 @@ public class EntityEnumConfig {
             }
         }
         return list;
+    }
+    private static Pattern linePattern = Pattern.compile("_(\\w)");
+
+    private static String lineToHump(String str) {
+        str = str.toLowerCase();
+        Matcher matcher = linePattern.matcher(str);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, matcher.group(1).toUpperCase());
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
     }
     public static String upperCaseFirst(String str) {
         if ((str == null) || (str.length() == 0)) return str;

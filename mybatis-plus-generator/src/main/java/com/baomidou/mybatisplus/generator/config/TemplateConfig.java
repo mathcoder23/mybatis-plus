@@ -36,6 +36,7 @@ public class TemplateConfig {
     private String entityKt = ConstVal.TEMPLATE_ENTITY_KT;
 
     private String service = ConstVal.TEMPLATE_SERVICE;
+    private String serviceSingleImpl = ConstVal.TEMPLATE_SERVICE_SINGLE_IMPL;
 
     private String serviceImpl = ConstVal.TEMPLATE_SERVICE_IMPL;
 

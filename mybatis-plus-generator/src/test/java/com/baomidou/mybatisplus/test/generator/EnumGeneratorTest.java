@@ -23,19 +23,20 @@ public class EnumGeneratorTest {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        String projectPath = "/Users/i303/Documents/me/dev-guides";
+        String projectPath = "/Users/i303/Documents/me/generate-code";
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor("pettyfox");
         gc.setOpen(false);
         gc.setFileOverride(true);
         gc.setServiceName("%sService");
+
         // gc.setSwagger2(true); 实体属性 Swagger2 注解
         mpg.setGlobalConfig(gc);
 
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://server.local:13310/dev_guides?useUnicode=true&useSSL=false&characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql://server.local:3306/generator_code?useUnicode=true&useSSL=false&characterEncoding=utf8");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
@@ -50,14 +51,14 @@ public class EnumGeneratorTest {
 //
 //            @Override
 //            public IColumnType processTypeConvert(GlobalConfig globalConfig, String fieldType) {
-////                log.info("field:{}",fieldType);
+//                log.info("field:{}",fieldType);
 //                return DbColumnType.BASE_BOOLEAN;
 //            }
 //        });
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setModuleName("");
-        pc.setParent("org.pettyfox.devguides");
+        pc.setModuleName("api");
+        pc.setParent("org.pettyfox.generatecode");
         mpg.setPackageInfo(pc);
 
         // 自定义配置
@@ -91,7 +92,10 @@ public class EnumGeneratorTest {
 ////                checkDir("调用默认方法创建的目录");
 //                if(fileType.equals(FileType.ENTITY))
 //                    return true;
-//                return false;
+//                else if(new File(filePath).exists()){
+//                    return false;
+//                }
+//                return true;
 //            }
 //        });
         cfg.setFileOutConfigList(focList);
@@ -117,12 +121,13 @@ public class EnumGeneratorTest {
         strategy.setEntityLombokModel(true);
         strategy.setEntityBuilderModel(true);
         strategy.setRestControllerStyle(true);
-        strategy.setSuperEnumClass("org.pettyfox.devguides.config.BaseEnum");
+        strategy.setSuperEnumClass("org.pettyfox.generatecode.config.BaseEnum.java");
+        strategy.setSuperControllerClass("org.pettyfox.generatecode.base.BaseController");
         // 公共父类
 //        strategy.setSuperControllerClass("org.pettyfox.devguides.common.BaseController");
         // 写于父类中的公共字段
 //        strategy.setSuperEntityColumns("id");
-        strategy.setInclude("tag_guides","dependency");
+        strategy.setInclude("column_config","table_config","column_type","datasource_config");
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");
         mpg.setStrategy(strategy);
